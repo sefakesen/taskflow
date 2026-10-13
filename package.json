@@ -1,0 +1,22 @@
+{
+  "name": "taskflow",
+  "version": "1.0.0",
+  "description": "Görev ve Proje Yönetim Sistemi REST API — TaskFlow",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js",
+    "test": "node scripts/test-runner.js",
+    "generate:screenshots": "node scripts/generate-screenshots.js"
+  },
+  "keywords": ["nodejs", "express", "rest-api", "task-management"],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  }
+}
