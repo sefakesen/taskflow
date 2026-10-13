@@ -3,19 +3,16 @@ const router = express.Router();
 const reportController = require("../controllers/reportController");
 
 /**
- * ─── Raporlama Rotaları (İsteğe Bağlı 03) ────────────────────
+ * Raporlama Rotalari (Istege Bagli 03)
  */
 
-// GET /api/reports/summary    — genel sistem özeti
+// GET /reports/summary veya /api/reports/summary
 router.get("/summary", reportController.getSummary);
 
-// GET /api/reports/completed  — tamamlanan görevler
+// GET /reports/completed veya /api/reports/completed
 router.get("/completed", reportController.getCompleted);
 
-// GET /api/reports/pending    — bekleyen görevler
+// GET /reports/pending veya /api/reports/pending
 router.get("/pending", reportController.getPending);
-
-// GET /api/reports/critical   — kritik öncelikli açık görevler
-router.get("/critical", reportController.getCritical);
 
 module.exports = router;

@@ -1,16 +1,14 @@
 /**
  * Global Error Handler Middleware
- * Tüm beklenmedik hataları yakalar ve düzenli bir JSON yanıtı döner.
+ * Beklenmeyen hatalari yakalar ve duzenli bir JSON yaniti doner.
  */
 const errorHandler = (err, req, res, next) => {
-  console.error(`\x1b[31m[HATA] ${err.message}\x1b[0m`);
-  console.error(err.stack);
+  console.error(`[Hata] ${err.message}`);
 
   const statusCode = err.statusCode || 500;
   res.status(statusCode).json({
     success: false,
-    message: err.message || "Sunucu hatası",
-    ...(process.env.NODE_ENV === "development" && { stack: err.stack }),
+    message: err.message || "Sunucu hatasi",
   });
 };
 

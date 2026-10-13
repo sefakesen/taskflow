@@ -1,148 +1,110 @@
-# 🚀 TaskFlow — Görev ve Proje Yönetim Sistemi REST API
-## Proje Tanıtım ve Sistem Tasarım Dokümanı
+# TaskFlow — Gorev ve Proje Yonetim Sistemi REST API
+## Proje Tanitim ve Sistem Tasarim Dokumani
 
-> **Eğitim:** Node.js ile Backend Programlama — Bitirme Projesi (2026)  
-> **Geliştirici:** Ekip / Öğrenci  
-> **Teknoloji Yığını:** Node.js (v24), Express.js (v4), RESTful API, Middleware Mimarisi, JSON Dosya Deposu  
-> **Durum:** ✅ Zorunlu Kapsam (100/100 Puan) + Tüm İsteğe Bağlı İleri Seviye Pratikler Tamamlandı
-
----
-
-## 1. Projenin Amacı ve Özeti
-
-**TaskFlow**, modern yazılım ekiplerinin proje, görev ve sorumluluk takibini uçtan uca yönetebilmesi için geliştirilmiş kurumsal kalitede bir **RESTful API** arka yüzüdür.
-
-Sistem; görevlerin yaşam döngüsünü (oluşturma, çalışanlara atama, önceliklendirme, durum güncelleme, silme), gelişmiş arama/filtreleme kriterlerini, kurumsal seviyede istek loglamayı ve yönetimsel raporlama servislerini tek bir standart JSON API üzerinden sunmaktadır.
+- Egitim: Node.js ile Backend Programlama — Bitirme Projesi (2026)
+- Teknoloji: Node.js, Express.js, RESTful API, Middleware, JSON Veri Deposu
+- Kapsam: Zorunlu CRUD Modulu ve Istege Bagli Gelismis Pratikler
 
 ---
 
-## 2. Sistem Senaryosu ve İş Akışı
+## 1. Projenin Amaci
 
-Bir yazılım geliştirme şirketinde:
-1. **Proje Yöneticisi:** Sisteme yeni görevler ekler (`POST /api/tasks`), önceliklerini (`low`, `medium`, `high`, `critical`) belirler ve takım üyelerine (`musa`, `ayse`, `ali`, `zeynep`) atar.
-2. **Geliştirici:** Kendisine atanan görevleri listeler (`GET /api/tasks/assignee/:name`), görevin durumunu `in-progress` veya `completed` olarak günceller (`PUT` / `PATCH /api/tasks/:id`).
-3. **Ekip Lideri / Yönetim:** Gelişmiş filtreleme ve arama ile iş yükünü inceler (`GET /api/tasks?status=completed`, `GET /api/tasks/search?keyword=...`), raporlama servisleri üzerinden sistem özetini (`GET /api/reports/summary`), bekleyen (`GET /api/reports/pending`) ve kritik görevleri (`GET /api/reports/critical`) anlık olarak izler.
+TaskFlow, yazilim gelistirme ekiplerinin gorevlerini, projelerini ve calisan sorumluluklarini takip etmelerini saglamak uzere gelistirilmis bir REST API arka yuzudur.
 
----
-
-## 3. Kazanılan Yetkinlikler ve Değerlendirme Kriterleri Uyumu
-
-| Değerlendirme Kriteri | Puan | TaskFlow Uygulaması |
-|-----------------------|------|---------------------|
-| **CRUD İşlemleri** | 30 | Ekleme (POST), Listeleme (GET), Detay (GET :id), Güncelleme (PUT/PATCH), Silme (DELETE) eksiksiz çalışır. |
-| **Routing Yapısı** | 15 | Modüler Express Router mimarisi (`taskRoutes.js`, `reportRoutes.js`). Hem `/api/tasks` hem de `/tasks` tam uyumludur. |
-| **Temel Middleware (Logger)** | 15 | Tüm gelen HTTP isteklerini timestamp, method, endpoint, yanıt kodu, süre ve IP ile konsola ve `logs/requests.log` dosyasına kaydeder. |
-| **Kod Kalitesi** | 15 | Katmanlı mimari (MVC separation of concerns), Clean Code prensipleri (SRP, DRY, KISS), defensive programming, hata yakalama (`errorHandler.js`). |
-| **Dokümantasyon (Temel)** | 15 | `README.md`, `proje-tanitim.md`, `api-dokumantasyonu.md`, `test-senaryolari.md` ve Postman koleksiyonu. |
-| **Test Süreçleri (Postman)** | 10 | Postman koleksiyonu (`TaskFlow.postman_collection.json`), otomatik test koşucusu (`npm test`), 8 adet gerçekçi Postman ekran görüntüsü (`docs/screenshots/`). |
-| **TOPLAM** | **100** | **Tam Puan (Eksiksiz)** |
+Sistem; gorev olusturma, calisanlara atama, durum takibi, oncelik yonetimi, filtreleme, arama, dogrulama (validation) ve temel raporlama mekanizmalarini tek bir standart RESTful API yapisi altinda birlestirir.
 
 ---
 
-## 4. Sistem ve Mimari Tasarımı
+## 2. Sistem Senaryosu
 
-Sistem katmanlı (layered architecture) ve modüler bir mimari üzerine inşa edilmiştir:
+Bir yazilim sirketinde:
+1. Proje Yoneticisi: Ekip icin yeni gorevler olusturur (`POST /api/tasks`), onceliklerini (`low`, `medium`, `high`, `critical`) belirler ve calisanlara (`musa`, `ayse`, `ali`, `zeynep`) atar.
+2. Gelistirici: Kendisine atanan gorevleri listeler (`GET /api/tasks/assignee/:name`), gorev detayina bakar (`GET /api/tasks/:id`) ve durumunu gunceller (`PUT /api/tasks/:id`).
+3. Ekip Lideri: Gorevleri filtreler, arar (`GET /api/tasks/search?keyword=...`), raporlama servisleri uzerinden sistem ozetini (`GET /api/reports/summary`) ve bekleyen isleri (`GET /api/reports/pending`) izler.
+
+---
+
+## 3. Sistem Mimarisi
+
+Uygulama, sorumluluklarin ayrilmasi (Separation of Concerns) ilkesine dayali katmanli bir mimariyle yapilandirilmistir:
 
 ```
-[İstemci / Postman / cURL]
-           │
-           ▼
-┌──────────────────────────────────────────────┐
-│ Global Middleware: CORS & JSON Body Parser   │
-└──────────────────────┬───────────────────────┘
-                       ▼
-┌──────────────────────────────────────────────┐
-│ Temel Middleware: Logger (Konsol + Dosya)    │
-└──────────────────────┬───────────────────────┘
-                       ▼
-┌──────────────────────────────────────────────┐
-│ Route Katmanı (/api/tasks & /api/reports)    │
-└──────────────────────┬───────────────────────┘
-                       ▼
-┌──────────────────────────────────────────────┐
-│ Validation Middleware (validateCreate/Update) │
-└──────────────────────┬───────────────────────┘
-                       ▼
-┌──────────────────────────────────────────────┐
-│ Controller Katmanı (taskController / report) │
-└──────────────────────┬───────────────────────┘
-                       ▼
-┌──────────────────────────────────────────────┐
-│ Data Store Katmanı (In-memory + tasks.json)  │
-└──────────────────────────────────────────────┘
+[Istemci / Postman]
+       │
+       ▼
+[Express JSON Body Parser]
+       │
+       ▼
+[Logger Middleware] (logs/requests.log ve Konsol)
+       │
+       ▼
+[Router Katmani] (/tasks ve /reports)
+       │
+       ▼
+[Validation Middleware] (Girdi Dogrulama)
+       │
+       ▼
+[Controller Katmani] (Is Mantigi)
+       │
+       ▼
+[Data Store Katmani] (Bellek ici erisim + tasks.json dosya esitlemesi)
 ```
 
-### Mimari Kararlar:
-- **Çift Rota Desteği:** Express uygulaması hem standart `/api/tasks` hem de yönergede geçen `/tasks` rotalarını aynı controller fonksiyonlarına bağlar.
-- **JSON Dosya Kalıcılığı (Persistence):** Görevler bellekte tutulurken aynı anda `src/data/tasks.json` dosyasına senkronize edilir. Sunucu yeniden başlasa dahi veriler kaybolmaz.
-- **Statik vs Dinamik Rota Önceliği:** `/search` ve `/assignee/:name` rotaları, `/:id` parametrik rotasından önce tanımlanarak rotaların çakışması önlenmiştir.
-- **Kapsamlı Hata Yönetimi:** Beklenmeyen hatalar global `errorHandler.js` tarafından yakalanıp standart JSON formatında döndürülür.
+### Temel Tasarim Kararlari:
+- Moduler Routing: Rotalar `taskRoutes.js` ve `reportRoutes.js` dosyalarinda bagimsiz moduller olarak tanimlanmistir. Hem `/api/tasks` hem de `/tasks` rotalari desteklenir.
+- Rota Onceligi: Statik rotalar (`/search`, `/assignee/:name`), parametrik rotalardan (`/:id`) once tanimlanarak rota cakismasi engellenmistir.
+- JSON Dosya Kaliciligi: Gorevler bellek icinde yonetilirken ayni anda `tasks.json` dosyasina yazilir; boylece sunucu yeniden baslatildiginda veriler korunur.
+- Basit ve Etkili Logger: Her gelen HTTP isteginin metodu, adresi, durum kodu ve zaman damgasi konsola ve log dosyasina kaydedilir.
 
 ---
 
-## 5. Veri Modeli Tasarımı
+## 4. Veri Modeli Tasarimi
 
-### `Task` (Görev) Varlığı
+### Gorev (Task) Modeli
 
-| Alan | Veri Tipi | Zorunlu? | Varsayılan | Açıklama |
-|------|-----------|----------|------------|----------|
-| `id` | String (UUID v4) | Otomatik | `uuidv4()` | Benzersiz görev kimliği |
-| `title` | String | Evet | - | Görev başlığı (3-100 karakter) |
-| `description` | String | Hayır | `""` | Görev açıklaması |
-| `status` | Enum (String) | Hayır | `"todo"` | Değerler: `todo`, `in-progress`, `completed`, `cancelled` |
-| `priority` | Enum (String) | Evet | - | Değerler: `low`, `medium`, `high`, `critical` |
-| `assignee` | String | Hayır | `null` | Atanan kişi adı (en az 2 karakter) |
-| `createdAt` | ISO 8601 String | Otomatik | `new Date().toISOString()` | Oluşturulma tarihi |
-| `updatedAt` | ISO 8601 String | Otomatik | `new Date().toISOString()` | Son güncellenme tarihi |
-
----
-
-## 6. API Endpoint Özeti
-
-### A. Görev Modülü (Zorunlu CRUD)
-- `GET /api/tasks` (ve `/tasks`): Tüm görevleri listele
-- `POST /api/tasks` (ve `/tasks`): Yeni görev oluştur
-- `GET /api/tasks/:id` (ve `/tasks/:id`): ID'ye göre görev detayı
-- `PUT /api/tasks/:id` (ve `/tasks/:id`): Görev güncelle (tam/kısmi)
-- `PATCH /api/tasks/:id` (ve `/tasks/:id`): Görev kısmi güncelle
-- `DELETE /api/tasks/:id` (ve `/tasks/:id`): Görev sil
-
-### B. Gelişmiş Özellikler (İsteğe Bağlı 01)
-- `GET /api/tasks?status=completed`: Duruma göre filtreleme
-- `GET /api/tasks?priority=high`: Önceliğe göre filtreleme
-- `GET /api/tasks/search?keyword=backend`: Başlık ve açıklamada arama
-- `GET /api/tasks/assignee/:name`: Sorumluya göre filtreleme
-- `GET /api/tasks?page=1&limit=10`: Sayfalama (Pagination)
-- `GET /api/tasks?sort=createdAt&order=desc`: Sıralama (Sorting)
-
-### C. Validation Middleware (İsteğe Bağlı 02)
-- Görev oluşturma ve güncelleme öncesi `title`, `description`, `priority`, `status`, `assignee` alanlarının tip ve içerik kontrolü.
-- Hatalı isteklerde açıklayıcı hata dizisiyle `400 Bad Request` yanıtı.
-
-### D. Raporlama Servisleri (İsteğe Bağlı 03)
-- `GET /api/reports/summary`: Toplam görev, durumlara göre dağılım, öncelik sayıları, sorumlu dağılımı ve tamamlanma yüzdesi.
-- `GET /api/reports/pending`: Bekleyen görevler (todo + in-progress) ve alt dağılımı.
-- `GET /api/reports/completed`: Tamamlanan görevler listesi ve sayısı.
-- `GET /api/reports/critical`: Kritik öncelikli ve henüz tamamlanmamış açık görevler.
+| Alan | Tip | Zorunlu | Aciklama |
+|------|-----|---------|----------|
+| id | String (UUID v4) | Otomatik | Benzersiz gorev kimligi |
+| title | String | Evet | Gorev basligi (3 - 100 karakter) |
+| description | String | Hayir | Gorev aciklamasi |
+| status | String | Hayir | Durum: todo, in-progress, completed, cancelled (Varsayilan: todo) |
+| priority | String | Evet | Oncelik: low, medium, high, critical |
+| assignee | String | Hayir | Atanan calisan adi (en az 2 karakter) |
+| createdAt | ISO 8601 String | Otomatik | Olusturulma zamani |
+| updatedAt | ISO 8601 String | Otomatik | Son guncellenme zamani |
 
 ---
 
-## 7. Middleware Mimarisi
+## 5. API Endpoint Listesi
 
-1. **`logger.js` (Aşama 03 — Zorunlu):**
-   - Her gelen isteğin zaman damgasını, HTTP metodunu, URL'ini, yanıt durum kodunu (200, 201, 400, 404, 500), yanıt süresini (ms) ve IP adresini yakalar.
-   - Durum koduna göre renklendirilmiş (yeşil/sarı/kırmızı) çıktıyı konsola yazar.
-   - İsteği `logs/requests.log` dosyasına kalıcı olarak ekler (`fs.appendFile`).
-2. **`validate.js` (İsteğe Bağlı 02):**
-   - Rota düzeyinde çalışır (`validateCreateTask`, `validateUpdateTask`).
-   - Gelen JSON verisini denetler, veri temizliği (trim) yapar ve geçersiz veriyi controller katmanına ulaşmadan engeller.
-3. **`errorHandler.js` (Global Hata Yönetimi):**
-   - Sunucu tarafında oluşabilecek beklenmeyen runtime hatalarını ele alır ve 500 Internal Server Error döner.
+### Zorunlu CRUD Uclari (Asama 03)
+- `GET /api/tasks` — Tum gorevleri listeler
+- `POST /api/tasks` — Yeni gorev olusturur
+- `GET /api/tasks/:id` — Belirli gorev detayini getirir
+- `PUT /api/tasks/:id` — Gorev bilgilerini gunceller
+- `DELETE /api/tasks/:id` — Gorevi sistemden siler
+
+### Gelismis Ozellikler (Istege Bagli 01)
+- `GET /api/tasks?status=completed` — Duruma gore filtreleme
+- `GET /api/tasks?priority=high` — Oncelige gore filtreleme
+- `GET /api/tasks/search?keyword=backend` — Anahtar kelime arama
+- `GET /api/tasks/assignee/:name` — Calisana gore listeleme
+- `GET /api/tasks?page=1&limit=10` — Sayfalama
+- `GET /api/tasks?sort=createdAt&order=desc` — Siralama
+
+### Validation Middleware (Istege Bagli 02)
+- `title`, `description`, `priority`, `status`, `assignee` alanlarinin tip ve deger kontrolleri yapilir.
+- Eksik veya hatali veri gonderildiginde `400 Bad Request` kodu ve aciklayici hata mesaji iletilir.
+
+### Raporlama Servisleri (Istege Bagli 03)
+- `GET /api/reports/summary` — Genel sistem ozeti (durum ve oncelik dagilimlari, tamamlama orani)
+- `GET /api/reports/pending` — Bekleyen gorev sayisi ve listesi
+- `GET /api/reports/completed` — Tamamlanan gorev sayisi ve listesi
 
 ---
 
-## 8. Test Kanıtları ve Doğrulama
+## 6. Test ve Teslimat Kanitlari
 
-- **Otomatik Test Paketi:** `npm test` komutu ile 19 adet uçtan uca test çalıştırılır. Başarı oranı: **%100 (19/19)**.
-- **Postman Koleksiyonu:** `docs/TaskFlow.postman_collection.json` dosyası, tüm CRUD, filtreleme, validation ve raporlama isteklerini dinamik `{{base_url}}` ve `{{task_id}}` değişkenleriyle hazır olarak sunar.
-- **Postman Test Ekran Görüntüleri:** `docs/screenshots/` klasöründe 8 adet yüksek çözünürlüklü test kanıtı yer almaktadır.
+- Postman Koleksiyonu: `docs/TaskFlow.postman_collection.json`
+- Test Ekran Goruntuleri: `docs/screenshots/` altinda 8 adet ekran goruntusu bulunmaktadir.
+- Otomatik Test Kosucusu: `npm test` komutuyla 18 uctan uca test yurutulebilir.

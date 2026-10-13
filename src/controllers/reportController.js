@@ -1,8 +1,8 @@
 const taskStore = require("../data/taskStore");
 
 /**
- * GET /api/reports/summary
- * Genel sistem özeti — tüm durumların sayısı ve öncelik dağılımı
+ * GET /reports/summary veya /api/reports/summary
+ * Genel sistem ozeti: durum dagilimi, oncelik dagilimi ve tamamlama orani.
  */
 const getSummary = (req, res) => {
   const tasks = taskStore.getAllTasks();
@@ -24,17 +24,14 @@ const getSummary = (req, res) => {
   const assigneeCounts = {};
 
   tasks.forEach((task) => {
-    // Durum sayımı
     if (statusCounts[task.status] !== undefined) {
       statusCounts[task.status]++;
     }
 
-    // Öncelik sayımı
     if (priorityCounts[task.priority] !== undefined) {
       priorityCounts[task.priority]++;
     }
 
-    // Sorumlu başına görev sayısı
     if (task.assignee) {
       assigneeCounts[task.assignee] = (assigneeCounts[task.assignee] || 0) + 1;
     }
@@ -56,8 +53,8 @@ const getSummary = (req, res) => {
 };
 
 /**
- * GET /api/reports/completed
- * Tamamlanan görevlerin sayısı ve listesi
+ * GET /reports/completed veya /api/reports/completed
+ * Tamamlanan gorevlerin sayisi ve listesi.
  */
 const getCompleted = (req, res) => {
   const tasks = taskStore.getAllTasks();
@@ -71,8 +68,8 @@ const getCompleted = (req, res) => {
 };
 
 /**
- * GET /api/reports/pending
- * Bekleyen görevlerin sayısı ve listesi (todo + in-progress)
+ * GET /reports/pending veya /api/reports/pending
+ * Bekleyen gorevlerin sayisi ve listesi (todo ve in-progress).
  */
 const getPending = (req, res) => {
   const tasks = taskStore.getAllTasks();
@@ -91,21 +88,4 @@ const getPending = (req, res) => {
   });
 };
 
-/**
- * GET /api/reports/overdue
- * Kritik öncelikli ve hâlâ tamamlanmamış görevler
- */
-const getCritical = (req, res) => {
-  const tasks = taskStore.getAllTasks();
-  const critical = tasks.filter(
-    (t) => t.priority === "critical" && t.status !== "completed" && t.status !== "cancelled"
-  );
-
-  res.status(200).json({
-    success: true,
-    count: critical.length,
-    tasks: critical,
-  });
-};
-
-module.exports = { getSummary, getCompleted, getPending, getCritical };
+module.exports = { getSummary, getCompleted, getPending };

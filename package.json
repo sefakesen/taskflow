@@ -6,8 +6,7 @@
   "scripts": {
     "start": "node src/app.js",
     "dev": "nodemon src/app.js",
-    "test": "node scripts/test-runner.js",
-    "generate:screenshots": "node scripts/generate-screenshots.js"
+    "test": "node scripts/test-runner.js"
   },
   "keywords": ["nodejs", "express", "rest-api", "task-management"],
   "author": "",

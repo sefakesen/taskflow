@@ -1,8 +1,8 @@
 {
   "info": {
     "_postman_id": "taskflow-collection-v1",
-    "name": "TaskFlow API — Test Koleksiyonu",
-    "description": "TaskFlow Görev Yönetim Sistemi REST API testleri",
+    "name": "TaskFlow API - Test Koleksiyonu",
+    "description": "TaskFlow Gorev ve Proje Yonetim Sistemi REST API Testleri",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "variable": [
@@ -15,12 +15,12 @@
       "key": "task_id",
       "value": "",
       "type": "string",
-      "description": "POST /api/tasks yanıtından otomatik doldurulur"
+      "description": "POST /api/tasks yanitindan otomatik doldurulur"
     }
   ],
   "item": [
     {
-      "name": "🏠 Health Check",
+      "name": "Health Check",
       "request": {
         "method": "GET",
         "header": [],
@@ -31,10 +31,10 @@
       }
     },
     {
-      "name": "📋 Zorunlu CRUD",
+      "name": "Zorunlu CRUD Islemleri",
       "item": [
         {
-          "name": "1. Tüm Görevleri Listele",
+          "name": "1. Tum Gorevleri Listele",
           "request": {
             "method": "GET",
             "header": [],
@@ -46,7 +46,7 @@
           }
         },
         {
-          "name": "2. Yeni Görev Oluştur",
+          "name": "2. Yeni Gorev Olustur",
           "event": [
             {
               "listen": "test",
@@ -55,7 +55,7 @@
                   "const res = pm.response.json();",
                   "if (res.success && res.task) {",
                   "  pm.collectionVariables.set('task_id', res.task.id);",
-                  "  console.log('task_id değişkeni ayarlandı:', res.task.id);",
+                  "  console.log('task_id degiskeni ayarlandi:', res.task.id);",
                   "}"
                 ],
                 "type": "text/javascript"
@@ -69,7 +69,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"title\": \"Postman Test Görevi\",\n  \"description\": \"Bu görev Postman üzerinden oluşturuldu.\",\n  \"priority\": \"high\",\n  \"assignee\": \"test-kullanici\"\n}"
+              "raw": "{\n  \"title\": \"Postman Test Gorevi\",\n  \"description\": \"Bu gorev Postman uzerinden olusturuldu.\",\n  \"priority\": \"high\",\n  \"assignee\": \"musa\"\n}"
             },
             "url": {
               "raw": "{{base_url}}/api/tasks",
@@ -79,7 +79,7 @@
           }
         },
         {
-          "name": "3. Görev Detayı (ID ile)",
+          "name": "3. Gorev Detayi (ID ile)",
           "request": {
             "method": "GET",
             "header": [],
@@ -91,7 +91,7 @@
           }
         },
         {
-          "name": "4. Görevi Güncelle (PUT)",
+          "name": "4. Gorevi Guncelle (PUT)",
           "request": {
             "method": "PUT",
             "header": [
@@ -109,25 +109,7 @@
           }
         },
         {
-          "name": "4b. Görevi Kısmi Güncelle (PATCH)",
-          "request": {
-            "method": "PATCH",
-            "header": [
-              { "key": "Content-Type", "value": "application/json" }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"assignee\": \"zeynep\"\n}"
-            },
-            "url": {
-              "raw": "{{base_url}}/api/tasks/{{task_id}}",
-              "host": ["{{base_url}}"],
-              "path": ["api", "tasks", "{{task_id}}"]
-            }
-          }
-        },
-        {
-          "name": "5. Görevi Sil",
+          "name": "5. Gorevi Sil (DELETE)",
           "request": {
             "method": "DELETE",
             "header": [],
@@ -141,10 +123,10 @@
       ]
     },
     {
-      "name": "🔍 Filtreleme (İsteğe Bağlı 01)",
+      "name": "Filtreleme ve Arama (Istege Bagli 01)",
       "item": [
         {
-          "name": "Duruma Göre Filtrele (completed)",
+          "name": "Duruma Gore Filtrele (completed)",
           "request": {
             "method": "GET",
             "url": {
@@ -156,7 +138,7 @@
           }
         },
         {
-          "name": "Önceliğe Göre Filtrele (high)",
+          "name": "Oncelige Gore Filtrele (high)",
           "request": {
             "method": "GET",
             "url": {
@@ -168,7 +150,7 @@
           }
         },
         {
-          "name": "Anahtar Kelime Ara",
+          "name": "Anahtar Kelime Arama (keyword)",
           "request": {
             "method": "GET",
             "url": {
@@ -180,7 +162,7 @@
           }
         },
         {
-          "name": "Kullanıcıya Göre Listele (musa)",
+          "name": "Kullaniciya Gore Listele (assignee)",
           "request": {
             "method": "GET",
             "url": {
@@ -191,7 +173,7 @@
           }
         },
         {
-          "name": "Sayfalama (page=1 limit=2)",
+          "name": "Sayfalama (page ve limit)",
           "request": {
             "method": "GET",
             "url": {
@@ -206,7 +188,7 @@
           }
         },
         {
-          "name": "Sıralama (createdAt desc)",
+          "name": "Siralama (sort ve order)",
           "request": {
             "method": "GET",
             "url": {
@@ -223,10 +205,10 @@
       ]
     },
     {
-      "name": "✅ Validation (İsteğe Bağlı 02)",
+      "name": "Dogrulama (Istege Bagli 02)",
       "item": [
         {
-          "name": "Hatalı İstek — title eksik",
+          "name": "Hatali Istek: title eksik",
           "request": {
             "method": "POST",
             "header": [
@@ -244,7 +226,7 @@
           }
         },
         {
-          "name": "Hatalı İstek — geçersiz priority",
+          "name": "Hatali Istek: gecersiz priority",
           "request": {
             "method": "POST",
             "header": [
@@ -252,7 +234,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"title\": \"Test\",\n  \"priority\": \"urgent\"\n}"
+              "raw": "{\n  \"title\": \"Test Gorevi\",\n  \"priority\": \"urgent\"\n}"
             },
             "url": {
               "raw": "{{base_url}}/api/tasks",
@@ -264,10 +246,10 @@
       ]
     },
     {
-      "name": "📊 Raporlama (İsteğe Bağlı 03)",
+      "name": "Raporlama (Istege Bagli 03)",
       "item": [
         {
-          "name": "Genel Özet",
+          "name": "Genel Sistem Ozeti",
           "request": {
             "method": "GET",
             "url": {
@@ -278,7 +260,7 @@
           }
         },
         {
-          "name": "Tamamlanan Görevler",
+          "name": "Tamamlanan Gorevler",
           "request": {
             "method": "GET",
             "url": {
@@ -289,24 +271,13 @@
           }
         },
         {
-          "name": "Bekleyen Görevler",
+          "name": "Bekleyen Gorevler",
           "request": {
             "method": "GET",
             "url": {
               "raw": "{{base_url}}/api/reports/pending",
               "host": ["{{base_url}}"],
               "path": ["api", "reports", "pending"]
-            }
-          }
-        },
-        {
-          "name": "Kritik Görevler",
-          "request": {
-            "method": "GET",
-            "url": {
-              "raw": "{{base_url}}/api/reports/critical",
-              "host": ["{{base_url}}"],
-              "path": ["api", "reports", "critical"]
             }
           }
         }
