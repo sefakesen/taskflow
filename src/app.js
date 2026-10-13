@@ -84,9 +84,29 @@ app.use(errorHandler);
 
 // ─── Server Start ─────────────────────────────────────────────
 if (process.env.NODE_ENV !== "test") {
-  app.listen(PORT, () => {
+  const server = app.listen(PORT, () => {
     console.log(`✅ TaskFlow API sunucusu başlatıldı → http://localhost:${PORT}`);
     console.log(`📋 Ortam: ${process.env.NODE_ENV || "development"}`);
+  });
+
+  server.on("error", (err) => {
+    if (err.code === "EADDRINUSE") {
+      console.error(
+        `\x1b[31m❌ [Port Çakışması] ${PORT} numaralı port şu anda başka bir işlem tarafından kullanılıyor!\x1b[0m`
+      );
+      console.error(
+        `💡 Çözüm: PowerShell'de şu komutla portu kullanan eski süreci kapatabilirsiniz:`
+      );
+      console.error(
+        `   Stop-Process -Id (Get-NetTCPConnection -LocalPort ${PORT}).OwningProcess -Force`
+      );
+      console.error(
+        `   Veya farklı bir port ile başlatın: $env:PORT=3001; npm run dev`
+      );
+    } else {
+      console.error("Sunucu başlatma hatası:", err);
+    }
+    process.exit(1);
   });
 }
 
