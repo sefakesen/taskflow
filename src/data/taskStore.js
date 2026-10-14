@@ -39,7 +39,7 @@ const DEFAULT_TASKS = [
   {
     id: "d4e5f6a7-b8c9-0123-defa-234567890123",
     title: "Birim testlerini yaz",
-    description: "Tüm servis fonksiyonları için Jest testleri oluştur.",
+    description: "Tüm servis fonksiyonları için test senaryoları oluştur.",
     status: "todo",
     priority: "low",
     assignee: "musa",

@@ -106,5 +106,9 @@ Uygulama, sorumluluklarin ayrilmasi (Separation of Concerns) ilkesine dayali kat
 ## 6. Test ve Teslimat Kanitlari
 
 - Postman Koleksiyonu: `docs/TaskFlow.postman_collection.json`
-- Test Ekran Goruntuleri: `docs/screenshots/` altinda 8 adet ekran goruntusu bulunmaktadir.
-- Otomatik Test Kosucusu: `npm test` komutuyla 18 uctan uca test yurutulebilir.
+- Test Ekran Goruntuleri: `docs/screenshots/` dizininde 5 temel CRUD isleminin basariyla calistigini gosteren dogrulama ekran goruntuleri yer almaktadir:
+  - `01_gorev_listeleme.png` (GET /api/tasks)
+  - `02_gorev_ekleme.png` (POST /api/tasks)
+  - `03_gorev_detayi.png` (GET /api/tasks/:id)
+  - `04_gorev_guncelleme.png` (PUT /api/tasks/:id)
+  - `05_gorev_silme.png` (DELETE /api/tasks/:id)

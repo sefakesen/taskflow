@@ -55,14 +55,12 @@ taskflow/
 │   │   ├── 04_gorev_guncelleme.png
 │   │   └── 05_gorev_silme.png
 │   ├── proje-tasarim-ciktisi.pdf          # Tasarım Çıktısı (Yalnızca PDF Teslimi)
-│   ├── proje-tasarim-ciktisi.md           # Tasarım Çıktısı Markdown kaynağı
+│   ├── proje-tanitim.md                   # Tasarım Çıktısı ve Sistem Mimarisi
 │   ├── api-dokumantasyonu.md              # Ayrıntılı API uç nokta dokümantasyonu
 │   ├── test-senaryolari.md                # Test senaryoları ve doğrulama matrisi
 │   └── TaskFlow.postman_collection.json   # Postman v2.1 test koleksiyonu
 ├── logs/
 │   └── requests.log                       # Logger middleware kayıt dosyası
-├── scripts/
-│   └── test-runner.js                     # Otomatik test koşucusu
 ├── src/
 │   ├── controllers/
 │   │   ├── taskController.js              # Görev CRUD ve filtreleme iş mantığı
@@ -160,12 +158,3 @@ curl -X POST http://localhost:3000/api/tasks \
 curl http://localhost:3000/api/reports/summary
 ```
 
----
-
-## 8. Otomatik Test Paketi
-
-Projedeki tüm uç noktaları otomatik olarak doğrulamak için:
-
-```bash
-npm test
-```

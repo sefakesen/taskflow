@@ -52,21 +52,17 @@ app.use((req, res) => {
 app.use(errorHandler);
 
 // Sunucu Baslatma
-if (process.env.NODE_ENV !== "test") {
-  const server = app.listen(PORT, () => {
-    console.log(`TaskFlow API sunucusu baslatildi: http://localhost:${PORT}`);
-    console.log(`Ortam: ${process.env.NODE_ENV || "development"}`);
-  });
+const server = app.listen(PORT, () => {
+  console.log(`TaskFlow API sunucusu baslatildi: http://localhost:${PORT}`);
+});
 
-  server.on("error", (err) => {
-    if (err.code === "EADDRINUSE") {
-      console.error(`[Hata] ${PORT} numarali port baska bir surec tarafindan kullaniliyor.`);
-      console.error(`Farkli bir port ile baslatmak icin: PORT=3001 npm start`);
-    } else {
-      console.error("Sunucu baslatma hatasi:", err.message);
-    }
-    process.exit(1);
-  });
-}
+server.on("error", (err) => {
+  if (err.code === "EADDRINUSE") {
+    console.error(`[Hata] ${PORT} numarali port baska bir surec tarafindan kullaniliyor.`);
+  } else {
+    console.error("Sunucu baslatma hatasi:", err.message);
+  }
+  process.exit(1);
+});
 
 module.exports = app;

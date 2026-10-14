@@ -5,11 +5,10 @@
   "main": "src/app.js",
   "scripts": {
     "start": "node src/app.js",
-    "dev": "nodemon src/app.js",
-    "test": "node scripts/test-runner.js"
+    "dev": "nodemon src/app.js"
   },
   "keywords": ["nodejs", "express", "rest-api", "task-management"],
-  "author": "",
+  "author": "Sefa Kesen",
   "license": "ISC",
   "dependencies": {
     "express": "^4.18.2",
