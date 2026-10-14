@@ -48,5 +48,35 @@
     "assignee": "zeynep",
     "createdAt": "2026-10-05T09:00:00.000Z",
     "updatedAt": "2026-10-06T09:00:00.000Z"
+  },
+  {
+    "id": "b89a2cb6-484e-4133-80c5-fb8b2a7fda2c",
+    "title": "Postman Test Gorevi",
+    "description": "Bu gorev Postman uzerinden olusturuldu.",
+    "status": "todo",
+    "priority": "high",
+    "assignee": "musa",
+    "createdAt": "2026-10-13T18:54:30.810Z",
+    "updatedAt": "2026-10-13T18:54:30.810Z"
+  },
+  {
+    "id": "44ce32e0-99d6-46f5-95ab-3b782cd60145",
+    "title": "Postman Test Gorevi",
+    "description": "Bu gorev Postman uzerinden olusturuldu.",
+    "status": "todo",
+    "priority": "high",
+    "assignee": "musa",
+    "createdAt": "2026-10-13T18:56:03.609Z",
+    "updatedAt": "2026-10-13T18:56:03.609Z"
+  },
+  {
+    "id": "e2ed22ed-193b-4ae6-8289-956bfb2aa6e9",
+    "title": "Postman Test Gorevi",
+    "description": "Bu gorev Postman uzerinden olusturuldu.",
+    "status": "in-progress",
+    "priority": "critical",
+    "assignee": "musa",
+    "createdAt": "2026-10-13T18:58:19.201Z",
+    "updatedAt": "2026-10-13T19:31:07.815Z"
   }
 ]

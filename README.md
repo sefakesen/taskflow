@@ -1,155 +1,162 @@
-# TaskFlow — Gorev ve Proje Yonetim Sistemi REST API
+# TaskFlow — Görev ve Proje Yönetim Sistemi REST API
+## Backend Geliştirme Proje Envanteri — Kurulum Notu (README)
 
-Node.js Backend Programlama Egitimi Bitirme Projesi (2026)
+- **Eğitim:** Node.js ile Backend Programlama — Bitirme Projesi (2026)
+- **Geliştirici:** Sefa Kesen
+- **Proje:** TaskFlow REST API
 
-Bu proje, bir yazilim sirketinin ekip icerisindeki gorevlerini, projelerini ve calisan sorumluluklarini takip etmesini saglayan REST API backend uygulamasidir.
+Bu proje, bir yazılım şirketinin ekip içerisindeki görevlerini, projelerini ve çalışan sorumluluklarını takip etmesini sağlayan RESTful API backend uygulamasıdır.
 
 ---
 
 ## 1. Sistem Gereksinimleri
 
-- Node.js: v18.0.0 veya uzeri (Onerilen: v20+)
-- npm: v8.0.0 veya uzeri
-- Postman: API testleri icin
+- **Node.js:** v18.0.0 veya üzeri (Önerilen: v20+)
+- **npm:** v8.0.0 veya üzeri
+- **Postman:** API testleri ve doğrulama için
 
 ---
 
-## 2. Kurulum ve Calistirma
+## 2. Kurulum ve Çalıştırma Adımları
 
-### Adim 1: Proje Dizinine Gecin
+### Adım 1: Projeyi Klonlayın veya Proje Dizinine Geçin
 ```bash
+git clone https://github.com/<kullanici-adi>/taskflow.git
 cd taskflow
 ```
 
-### Adim 2: Bagimliliklari Yukleyin
+### Adım 2: Bağımlılıkları Yükleyin
 ```bash
 npm install
 ```
 
-### Adim 3: Sunucuyu Baslatin
+### Adım 3: Sunucuyu Başlatın
 ```bash
-# Uretim modu
+# Üretim modu (Normal çalıştırma)
 npm start
 
-# Gelistirme modu (nodemon ile otomatik yeniden baslatma)
+# Geliştirme modu (Nodemon ile otomatik yeniden başlatma)
 npm run dev
 ```
 
-Sunucu baslatildiginda varsayilan olarak http://localhost:3000 adresinde calisir.
+Sunucu başarıyla başlatıldığında varsayılan olarak **http://localhost:3000** adresinde çalışır.
 
 ---
 
-## 3. Klasor Yapisi
+## 3. Klasör ve Dosya Hiyerarşisi
 
 ```
 taskflow/
 ├── docs/
-│   ├── screenshots/                       # Postman test ekran goruntuleri
-│   ├── api-dokumantasyonu.md              # Ayrintili API ucnokta dokumantasyonu
-│   ├── proje-tanitim.md                   # Proje tanitim ve mimari dokumani
-│   ├── test-senaryolari.md                # Test senaryolari ve dogrulama listesi
-│   └── TaskFlow.postman_collection.json   # Postman test koleksiyonu
+│   ├── screenshots/                       # Postman test ekran görüntüleri (5 zorunlu CRUD)
+│   │   ├── 01_gorev_listeleme.png
+│   │   ├── 02_gorev_ekleme.png
+│   │   ├── 03_gorev_detayi.png
+│   │   ├── 04_gorev_guncelleme.png
+│   │   └── 05_gorev_silme.png
+│   ├── proje-tasarim-ciktisi.pdf          # Tasarım Çıktısı (Yalnızca PDF Teslimi)
+│   ├── proje-tasarim-ciktisi.md           # Tasarım Çıktısı Markdown kaynağı
+│   ├── api-dokumantasyonu.md              # Ayrıntılı API uç nokta dokümantasyonu
+│   ├── test-senaryolari.md                # Test senaryoları ve doğrulama matrisi
+│   └── TaskFlow.postman_collection.json   # Postman v2.1 test koleksiyonu
 ├── logs/
-│   └── requests.log                       # Logger middleware kayit dosyasi
+│   └── requests.log                       # Logger middleware kayıt dosyası
 ├── scripts/
-│   └── test-runner.js                     # Otomatik test kosucusu
+│   └── test-runner.js                     # Otomatik test koşucusu
 ├── src/
 │   ├── controllers/
-│   │   ├── taskController.js              # Gorev CRUD ve filtreleme is mantigi
-│   │   └── reportController.js            # Raporlama servisleri is mantigi
+│   │   ├── taskController.js              # Görev CRUD ve filtreleme iş mantığı
+│   │   └── reportController.js            # Raporlama servisleri iş mantığı
 │   ├── data/
-│   │   ├── tasks.json                     # JSON dosya tabanli veri deposu
-│   │   └── taskStore.js                   # Veri erisim katmani
+│   │   ├── tasks.json                     # JSON dosya tabanlı veri deposu
+│   │   └── taskStore.js                   # Veri erişim katmanı
 │   ├── middleware/
-│   │   ├── errorHandler.js                # Global hata yakalama katmani
-│   │   ├── logger.js                      # Istek loglama middleware'i
-│   │   └── validate.js                    # Girdi dogrulama middleware'i
+│   │   ├── errorHandler.js                # Global hata yakalama katmanı
+│   │   ├── logger.js                      # İstek loglama middleware'i
+│   │   └── validate.js                    # Girdi doğrulama middleware'i
 │   ├── routes/
-│   │   ├── reportRoutes.js                # Raporlama rotalari
-│   │   └── taskRoutes.js                  # Gorev rotalari
-│   └── app.js                             # Express sunucu giris noktasi
+│   │   ├── reportRoutes.js                # Raporlama rotaları
+│   │   └── taskRoutes.js                  # Görev rotaları
+│   └── app.js                             # Express sunucu giriş noktası
 ├── package.json
-└── README.md
+└── README.md                              # Kurulum notu
 ```
 
 ---
 
 ## 4. API Endpoint Listesi
 
-Not: Sistem hem `/api/...` hem de dogrudan `/...` rotalarini destekler.
+> **Not:** Sistem hem `/api/...` standart önekini hem de `/...` kök rotalarını destekler.
 
-### Zorunlu CRUD Islemleri (Asama 03)
+### Zorunlu CRUD İşlemleri (Aşama 03)
 
-| Metot | Endpoint | Aciklama | Durum Kodu |
-|-------|----------|----------|------------|
-| GET | /api/tasks | Tum gorevleri listeler | 200 OK |
-| POST | /api/tasks | Yeni gorev olusturur | 201 Created |
-| GET | /api/tasks/:id | Belirli gorevi getirir | 200 OK / 404 Not Found |
-| PUT | /api/tasks/:id | Gorevi gunceller | 200 OK / 404 Not Found |
-| DELETE | /api/tasks/:id | Gorevi siler | 200 OK / 404 Not Found |
+| Metot | Endpoint | Açıklama | Durum Kodu |
+|---|---|---|:---:|
+| `GET` | `/api/tasks` veya `/tasks` | Tüm görevleri listeler | `200 OK` |
+| `POST` | `/api/tasks` veya `/tasks` | Yeni görev oluşturur | `201 Created` |
+| `GET` | `/api/tasks/:id` veya `/tasks/:id` | Belirli görevi ID ile getirir | `200 OK` / `404 Not Found` |
+| `PUT` | `/api/tasks/:id` veya `/tasks/:id` | Görev bilgilerini günceller | `200 OK` / `404 Not Found` |
+| `DELETE` | `/api/tasks/:id` veya `/tasks/:id` | Görevi sistemden siler | `200 OK` / `404 Not Found` |
 
-### Gelismis Ozellikler (Istege Bagli 01)
+### Gelişmiş Özellikler (İsteğe Bağlı Pratik 01)
 
-| Metot | Endpoint | Aciklama |
-|-------|----------|----------|
-| GET | /api/tasks?status=completed | Duruma gore filtreleme |
-| GET | /api/tasks?priority=high | Oncelige gore filtreleme |
-| GET | /api/tasks/search?keyword=backend | Baslik ve aciklamada arama |
-| GET | /api/tasks/assignee/:name | Sorumlu calisana gore listeleme |
-| GET | /api/tasks?page=1&limit=10 | Sayfalama (Pagination) |
-| GET | /api/tasks?sort=createdAt&order=desc | Siralama (Sorting) |
+| Metot | Endpoint | Açıklama |
+|---|---|---|
+| `GET` | `/api/tasks?status=completed` | Duruma göre filtreleme |
+| `GET` | `/api/tasks?priority=high` | Önceliğe göre filtreleme |
+| `GET` | `/api/tasks/search?keyword=backend` | Başlık ve açıklamada arama |
+| `GET` | `/api/tasks/assignee/:name` | Sorumlu çalışana göre listeleme |
+| `GET` | `/api/tasks?page=1&limit=10` | Sayfalama (Pagination) |
+| `GET` | `/api/tasks?sort=createdAt&order=desc` | Sıralama (Sorting) |
 
-### Raporlama Servisleri (Istege Bagli 03)
+### Raporlama Servisleri (İsteğe Bağlı Pratik 03)
 
-| Metot | Endpoint | Aciklama |
-|-------|----------|----------|
-| GET | /api/reports/summary | Genel sistem ozeti (durum ve oncelik dagilimi, tamamlama orani) |
-| GET | /api/reports/pending | Bekleyen gorev sayisi ve listesi |
-| GET | /api/reports/completed | Tamamlanan gorev sayisi ve listesi |
+| Metot | Endpoint | Açıklama |
+|---|---|---|
+| `GET` | `/api/reports/summary` | Genel sistem özeti (durum ve öncelik dağılımı, tamamlanma oranı) |
+| `GET` | `/api/reports/pending` | Bekleyen görev sayısı ve listesi |
+| `GET` | `/api/reports/completed` | Tamamlanan görev sayısı ve listesi |
 
 ---
 
 ## 5. Middleware Mimarisi
 
-- Logger Middleware (Zorunlu): Gelen tum isteklerin metodunu, adresini, durum kodunu ve zaman damgasini konsola ve `logs/requests.log` dosyasina kaydeder.
-- Validation Middleware (Istege Bagli): POST ve PUT isteklerinde `title`, `description`, `priority`, `status` ve `assignee` alanlarini denetler; eksik veya hatali veride 400 Bad Request doner.
-- Error Handler Middleware: Beklenmeyen hatalari yakalar ve 500 kodu ile standart JSON mesaji iletir.
+- **Logger Middleware (Zorunlu):** Gelen tüm isteklerin HTTP metodunu, adresini, dönen durum kodunu ve zaman damgasını konsola ve `logs/requests.log` dosyasına yazar.
+- **Validation Middleware (İsteğe Bağlı):** `POST` ve `PUT` isteklerinde `title`, `description`, `priority`, `status` ve `assignee` alanlarını denetler; eksik veya geçersiz veride `400 Bad Request` döner.
+- **Error Handler Middleware:** Beklenmeyen sunucu hatalarını yakalar ve `500 Sunucu hatasi` kodu ile standart JSON yanıtı iletir.
 
 ---
 
-## 6. Postman ile Test ve Ekran Goruntuleri
+## 6. Postman ile Test ve Ekran Görüntüleri
 
-### Koleksiyonun Ice Aktarilmasi:
-1. Postman uygulamasini acin.
-2. Import secenegine tiklayin.
-3. `docs/TaskFlow.postman_collection.json` dosyasini secin.
-4. `base_url` degiskeni varsayilan olarak `http://localhost:3000` degerindedir.
+### Koleksiyonun İçe Aktarılması:
+1. Postman uygulamasını açın.
+2. Sol üstteki **Import** butonuna tıklayın.
+3. Repodaki `docs/TaskFlow.postman_collection.json` dosyasını seçin.
+4. `base_url` değişkeni varsayılan olarak `http://localhost:3000` adresine ayarlıdır.
 
-### Test Ekran Goruntuleri:
-Teslim formunda istenen test ekran goruntuleri `docs/screenshots/` dizininde yer almaktadir:
-- `01_gorev_listeleme.png` - GET /api/tasks
-- `02_gorev_ekleme.png` - POST /api/tasks
-- `03_gorev_detayi.png` - GET /api/tasks/:id
-- `04_gorev_guncelleme.png` - PUT /api/tasks/:id
-- `05_gorev_silme.png` - DELETE /api/tasks/:id
-- `06_filtreleme_ve_arama.png` - Filtreleme ve arama islemleri
-- `07_validation_hatasi.png` - Dogrulama hatasi (400 Bad Request)
-- `08_raporlama_ozeti.png` - GET /api/reports/summary
+### Teslim Edilen Test Ekran Görüntüleri:
+Zorunlu 5 temel CRUD işleminin başarıyla çalıştığını kanıtlayan ekran görüntüleri `docs/screenshots/` klasöründe yer almaktadır:
+- `01_gorev_listeleme.png` — Tüm görevlerin listelenmesi (200 OK)
+- `02_gorev_ekleme.png` — Yeni görev oluşturulması (201 Created)
+- `03_gorev_detayi.png` — Görev detayının getirilmesi (200 OK)
+- `04_gorev_guncelleme.png` — Görevin güncellenmesi (200 OK)
+- `05_gorev_silme.png` — Görevin silinmesi (200 OK)
 
 ---
 
-## 7. cURL Test Komutlari
+## 7. cURL Test Komutları
 
 ```bash
-# Tum gorevleri listele
+# 1. Tüm görevleri listele
 curl http://localhost:3000/api/tasks
 
-# Yeni gorev ekle
+# 2. Yeni görev ekle
 curl -X POST http://localhost:3000/api/tasks \
   -H "Content-Type: application/json" \
   -d '{"title":"Proje Testi","priority":"high","assignee":"musa"}'
 
-# Raporlama ozetini goruntule
+# 3. Raporlama özetini görüntüle
 curl http://localhost:3000/api/reports/summary
 ```
 
@@ -157,7 +164,7 @@ curl http://localhost:3000/api/reports/summary
 
 ## 8. Otomatik Test Paketi
 
-Projede yer alan test kosucusunu calistirmak icin:
+Projedeki tüm uç noktaları otomatik olarak doğrulamak için:
 
 ```bash
 npm test
