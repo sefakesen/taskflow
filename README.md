@@ -55,6 +55,7 @@ taskflow/
 │   │   ├── 04_gorev_guncelleme.png
 │   │   └── 05_gorev_silme.png
 │   ├── proje-tasarim-ciktisi.pdf          # Tasarım Çıktısı (Yalnızca PDF Teslimi)
+│   ├── kurulum-notu-readme.pdf            # Kurulum Notu ve Test Raporu (PDF Teslimi)
 │   ├── proje-tanitim.md                   # Tasarım Çıktısı ve Sistem Mimarisi
 │   ├── api-dokumantasyonu.md              # Ayrıntılı API uç nokta dokümantasyonu
 │   ├── test-senaryolari.md                # Test senaryoları ve doğrulama matrisi
