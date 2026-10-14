@@ -40,12 +40,21 @@ Bu dokuman; TaskFlow Gorev ve Proje Yonetim Sistemi REST API'sinin Postman test 
 
 ---
 
-## 3. Ekran Goruntuleri Dosya Listesi
+## 3. Ekran Goruntuleri
 
-Teslim edilen 5 zorunlu temel CRUD test ekran goruntuleri `docs/screenshots/` dizinindedir:
+Teslim edilen 5 zorunlu temel CRUD test ekran goruntuleri:
 
-- `01_gorev_listeleme.png` (GET /api/tasks - 200 OK)
-- `02_gorev_ekleme.png` (POST /api/tasks - 201 Created)
-- `03_gorev_detayi.png` (GET /api/tasks/:id - 200 OK)
-- `04_gorev_guncelleme.png` (PUT /api/tasks/:id - 200 OK)
-- `05_gorev_silme.png` (DELETE /api/tasks/:id - 200 OK)
+### 1. Tum Gorevleri Listeleme (GET /api/tasks - 200 OK)
+![Tum Gorevleri Listeleme](screenshots/01_gorev_listeleme.png)
+
+### 2. Yeni Gorev Olusturma (POST /api/tasks - 201 Created)
+![Yeni Gorev Olusturma](screenshots/02_gorev_ekleme.png)
+
+### 3. Gorev Detayi (GET /api/tasks/:id - 200 OK)
+![Gorev Detayi](screenshots/03_gorev_detayi.png)
+
+### 4. Gorev Guncelleme (PUT /api/tasks/:id - 200 OK)
+![Gorev Guncelleme](screenshots/04_gorev_guncelleme.png)
+
+### 5. Gorev Silme (DELETE /api/tasks/:id - 200 OK)
+![Gorev Silme](screenshots/05_gorev_silme.png)

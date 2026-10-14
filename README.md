@@ -134,27 +134,21 @@ taskflow/
 4. `base_url` değişkeni varsayılan olarak `http://localhost:3000` adresine ayarlıdır.
 
 ### Teslim Edilen Test Ekran Görüntüleri:
-Zorunlu 5 temel CRUD işleminin başarıyla çalıştığını kanıtlayan ekran görüntüleri `docs/screenshots/` klasöründe yer almaktadır:
-- `01_gorev_listeleme.png` — Tüm görevlerin listelenmesi (200 OK)
-- `02_gorev_ekleme.png` — Yeni görev oluşturulması (201 Created)
-- `03_gorev_detayi.png` — Görev detayının getirilmesi (200 OK)
-- `04_gorev_guncelleme.png` — Görevin güncellenmesi (200 OK)
-- `05_gorev_silme.png` — Görevin silinmesi (200 OK)
 
----
+Zorunlu 5 temel CRUD işleminin başarıyla çalıştığını kanıtlayan Postman test ekran görüntüleri aşağıdadır:
 
-## 7. cURL Test Komutları
+#### 1. Tüm Görevlerin Listelenmesi (GET /api/tasks - 200 OK)
+![Tüm Görevleri Listeleme](docs/screenshots/01_gorev_listeleme.png)
 
-```bash
-# 1. Tüm görevleri listele
-curl http://localhost:3000/api/tasks
+#### 2. Yeni Görev Oluşturulması (POST /api/tasks - 201 Created)
+![Yeni Görev Oluşturma](docs/screenshots/02_gorev_ekleme.png)
 
-# 2. Yeni görev ekle
-curl -X POST http://localhost:3000/api/tasks \
-  -H "Content-Type: application/json" \
-  -d '{"title":"Proje Testi","priority":"high","assignee":"musa"}'
+#### 3. Görev Detayının Getirilmesi (GET /api/tasks/:id - 200 OK)
+![Görev Detayı](docs/screenshots/03_gorev_detayi.png)
 
-# 3. Raporlama özetini görüntüle
-curl http://localhost:3000/api/reports/summary
-```
+#### 4. Görevin Güncellenmesi (PUT /api/tasks/:id - 200 OK)
+![Görev Güncelleme](docs/screenshots/04_gorev_guncelleme.png)
+
+#### 5. Görevin Silinmesi (DELETE /api/tasks/:id - 200 OK)
+![Görev Silme](docs/screenshots/05_gorev_silme.png)
 
