@@ -21,7 +21,7 @@ Bu proje, bir yazılım şirketinin ekip içerisindeki görevlerini, projelerini
 
 ### Adım 1: Projeyi Klonlayın veya Proje Dizinine Geçin
 ```bash
-git clone https://github.com/<kullanici-adi>/taskflow.git
+git clone https://github.com/sefakesen/taskflow.git
 cd taskflow
 ```
 
